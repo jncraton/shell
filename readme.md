@@ -3,17 +3,14 @@ Shell
 
 A minimal shell for x64 Linux systems.
 
-This implementation strives to be as simple as possible to understand from top to bottom. It can be challenging to understand where user applications end and the kernel begins, especially with middleware such as libc present. This shell therefore includes no external libraries, including libc. A limited number of x64 Linux system calls are provided via `syscall.h`. These are:
+## Learning Outcomes
 
-- System call 0 - `read`
-- System call 1 - `write`
-- System call 57 - `fork`
-- System call 59 - `execve`
-- System call 60 - `exit`
-- System call 61 - `wait4`
-- System call 80 - `cd`
+After completing this experience, learners will be able to:
 
-It turns out that using just these seven system calls, we can implement a basic shell.
+1. Identify the role of a shell in a POSIX system
+2. Implement basic process control using `fork`, `execve`, and `wait4`
+3. Execute system calls directly without using a standard library
+4. Implement shell builtins for process termination and directory navigation
 
 What is a shell?
 ----------------
@@ -21,6 +18,21 @@ What is a shell?
 At its most basic level, a shell is simply a program that exposes the operating system to a user. Shells can be graphical or they can use a command-line interface. A basic shell should allow a user to launch programs on the system.
 
 A simple CLI shell may operate as a [read-eval-print loop](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop). It accepts input from a user, evaluates it, then displays any results of the evalation. In order to implement a REPL, we need a loop and the `read` and `write` system calls.
+
+Implementation
+--------------
+
+This implementation strives to be as simple as possible to understand from top to bottom. It can be challenging to understand where user applications end and the kernel begins, especially with middleware such as libc present. This shell therefore includes no external libraries, including libc. A limited number of x64 Linux system calls are provided via `syscall.h`. These are:
+
+- [read](https://man7.org/linux/man-pages/man2/read.2.html) (0)
+- [write](https://man7.org/linux/man-pages/man2/write.2.html) (1)
+- [fork](https://man7.org/linux/man-pages/man2/fork.2.html) (57)
+- [execve](https://man7.org/linux/man-pages/man2/execve.2.html) (59)
+- [exit](https://man7.org/linux/man-pages/man2/_exit.2.html) (60)
+- [wait4](https://man7.org/linux/man-pages/man2/wait4.2.html) (61)
+- [chdir](https://man7.org/linux/man-pages/man2/chdir.2.html) (80)
+
+It turns out that using just these seven system calls, we can implement a basic shell.
 
 Running Programs
 ----------------
@@ -58,4 +70,3 @@ Hello, world!
 You should even be able to run interactive programs such as `/usr/bin/vi`.
 
 Note that this simple shell implementation does not support the `PATH` environment variable, so programs like `ls` need to be executed as `/bin/ls` using their absolute path.
-
