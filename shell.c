@@ -100,8 +100,7 @@ void eval_and_print(char *line) {
       int status;
       do {
         wait4(pid, &status, UNTRACED);
-        status = status & 0177;
-      } while (status || status == STOPPED);
+      } while (status & STOPPED);
     }
   }
 }
